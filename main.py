@@ -25,8 +25,8 @@ async def dog(ctx):
 
 @bot.command()
 async def cat(ctx):
-    r_Cat = requests.get('https://api.thecatapi.com/v1/images/search')
-    data = r_Cat.json()
+    r_Ca = requests.get('https://api.thecatapi.com/v1/images/search')
+    data = r_Ca.json()
     cat_Emb = discord.Embed(title = '')
     cat_img_link = data[0]['url']
     cat_Emb.set_image(url = cat_img_link)
