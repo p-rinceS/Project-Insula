@@ -3,7 +3,6 @@ import random, discord
 from discord.ext import commands, tasks
 from itertools import cycle
 import csv
-# import openai
 
 
 
@@ -15,22 +14,20 @@ command_prefix = ".",
 intents=intents, 
 case_insensitive=True)
 
-# lets authorize openai api key
 
-# openai.api_key = (os.environ['OPEN_AI_KEY'])
-# openai.Model.list()
-token = "YOUR TOKEN HERE"
-
-# id = '805896949932359722' Server ID
+token = "ENTER YOUR TOKEN"
 
 
-# Bot is activated and Ready
+# Bot is activated and ready to be man-handled
 @client.event
 async def on_ready():
   print("Bot is activated properly")
   status_change.start()
 
 status = cycle(['UIC', '.grades'])
+# trusted users have access to the following:
+  # shutdown the bot (kill)
+  # yep thats about it.
 Trusted = [135932078486192128]
 
 @tasks.loop(seconds = 10)
@@ -42,31 +39,6 @@ async def status_change():
 for guild in client.guilds:
   print(guild)
   print(guild.id)
-
-
-@client.event
-async def on_message(m):
-  name = m.author.display_name
-  if name == None:
-    name = m.author
-
-  m_log = discord.Embed(title=name, color=10181046,description='') 
-  m_log.add_field(name='Content:', value= m.content, inline = False)
-  m_log.add_field(name='Server:', value= str(m.guild), inline = False)
-  m_log.add_field(name='Channel:', value= str(m.channel), inline = False)
-  m_log.add_field(name='Time:', value= str(m.created_at), inline = False)
-
-  
-
-
-
-  # print(m)
-
-  if m.author.id == 893525520833216543:  
-      return
-
-  await client.get_channel(954146629617872916).send(embed = m_log)
-  await client.process_commands(m)
 
 
 @client.command(name= 'connect',aliases = ['join', 'play'], pass_context = True)
@@ -96,30 +68,6 @@ async def coinflip(ctx):
   await ctx.channel.trigger_typing()
   await ctx.channel.send(random.choice(heads_or_tails))
 
-#----
-# @client.command(name="ai", aliases=['answer'], pass_context=True)
-# async def open(ctx, *args):
-#   prompts = ' '.join(args)
-  
-#   response = openai.Completion.create(
-#   engine="text-davinci-003",
-#   prompt= prompts,
-#   temperature = 0.4,
-#   max_tokens = 64
-# )
-#   await ctx.message.reply(response['choices'][0]['text'])
-
-#----
-  
-# @client.command(name="image", aliases=['givemeimage'], pass_context=True)
-# async def open(ctx, *args):
-#   prompts = ' '.join(args)
-#   response = openai.Image.create(
-#   prompt= prompts,
-#   n=1,
-#   size="1024x1024"
-# )
-  # await ctx.message.reply(response['data'][0]['url'])
 
 @client.command(name="avatar", aliases=['av'], pass_context=True)
 async def avatar(ctx, member : discord.Member = None):
@@ -186,19 +134,22 @@ async def gradeDist(ctx, semester='' ,subject='', courseNum = ''):
         if i[0] == subject and i[1] == courseNum:
           passrate = ((int(i[5]) + int(i[6]) + int(i[7]))/int(i[22]))*100
           #colors in order: very red, red, orange, yellow, yellow green, green
+          pass_likelihood = 0
           colors = [0xAB1515,0xFF5C5C, 0xF19941, 0xEBDF22, 0xA4F871, 0x45A30B]
-          if (passrate >= 0 and passrate <= 49):
+          if (passrate >= 0 and passrate < 49):
             pass_likelihood = colors[0]
-          elif(passrate >= 50 and passrate <= 59):
+          elif(passrate >= 49 and passrate < 59):
             pass_likelihood = colors[1]
-          elif(passrate >= 60 and passrate <= 69):
+          elif(passrate >= 59 and passrate < 69):
             pass_likelihood = colors[2]
-          elif(passrate >= 70 and passrate <= 79):
+          elif(passrate >= 69 and passrate < 79):
             pass_likelihood = colors[3]
-          elif(passrate >= 80 and passrate <= 89):
+          elif(passrate >= 79 and passrate < 89):
             pass_likelihood = colors[4]
-          elif(passrate >= 90 and passrate <= 100):
+          elif(passrate >= 89 and passrate <= 100):
             pass_likelihood = colors[5]
+          else:
+            pass_likelihood = 0x000000
             #----------------------
           GradeEmbed = discord.Embed(title="UIC Grade Distribution", description='',color=pass_likelihood)
           GradeEmbed.add_field(name = "_____", value = "**Semester:** "+ semester +"\n**Course: **" + i[2] + "\n**Professor: **" + i[21] + "\n\n**A:** " + i[5] +"\n**B:** " + i[6] + "\n**C:** " + i[7] + "\n**D:** " + i[8] + "\n**F:** " + i[9] + "\n**Pass Rate:** "+f'{passrate:.2f}%' +"\n**Dropped:** " + i[20])
