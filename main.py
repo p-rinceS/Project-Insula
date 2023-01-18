@@ -19,7 +19,7 @@ case_insensitive=True)
 
 # openai.api_key = (os.environ['OPEN_AI_KEY'])
 # openai.Model.list()
-token = ""
+token = "test"
 
 # id = '805896949932359722' Server ID
 
