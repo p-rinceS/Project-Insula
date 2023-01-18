@@ -1,11 +1,8 @@
 # Project-Insula
 
-
 Hi, this is a recoded version of my prior discord bot projecte entitled: "Tower".
 
-
 Hopefully this code will be improved & include version control.
-
 
 Some plans I have for this new and improved discord bot are:
 
