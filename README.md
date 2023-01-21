@@ -1,5 +1,7 @@
-# UIClassmate 🎓
 
+<p align="center">
+<img src="img/UICLASSMATE_logo.png" width="250" height = "125" >
+</p>
 This bot is designed to provide information about grade distribution for over 2000+ classes at the University of Illinois at Chicago (UIC). The bot is hosted 24/7 on a virtual machine (VM) on Google Cloud's Compute Engine.
 
 To use the bot, simply type in the command `.grades  [SEMESTER] [SUBJECT] [COURSE NUMBER]` into the discord channel where the bot is present. For example, `.grades FA21 CS 141` would give the grade distribution for CS 141 taught in FALL 2021 semester @ UIC.
