@@ -11,11 +11,12 @@ intents = discord.Intents.all()
 intents.members = True
 client = commands.Bot(
 command_prefix = ".", 
-intents=intents, 
+intents=intents,
 case_insensitive=True)
 
+client.remove_command('help')
 
-token = "ENTER YOUR TOKEN"
+token = "ENTER YOUR TOKEN HERE"
 
 
 # Bot is activated and ready to be man-handled
@@ -35,10 +36,6 @@ async def status_change():
 
 
   await client.change_presence(activity=discord.Game(next(status)))
-
-for guild in client.guilds:
-  print(guild)
-  print(guild.id)
 
 
 @client.command(name= 'connect',aliases = ['join', 'play'], pass_context = True)
@@ -65,7 +62,7 @@ async def disconnect(ctx):
  # COIN FLIP COMMAND START---------------------------------
 async def coinflip(ctx):
   heads_or_tails = ['<:tails:903489344185172009>','<:heads:903489327361818654> ']
-  await ctx.channel.trigger_typing()
+  # await ctx.channel.trigger_typing()
   await ctx.channel.send(random.choice(heads_or_tails))
 
 
@@ -108,7 +105,8 @@ async def ping(ctx):
 
 @client.command(name = "gradeDist", aliases=['gradedistribution', 'grades', 'grade'])
 async def gradeDist(ctx, semester='' ,subject='', courseNum = ''):
-  
+    # if isinstance(exception, commands.dm_only):
+    #   await ctx.author.send("Test")
     checks = False
     if (semester != '' and subject != '' and courseNum != ''):
       checks = True
@@ -129,6 +127,9 @@ async def gradeDist(ctx, semester='' ,subject='', courseNum = ''):
       rows = []
       for row in csvreader:
         rows.append(row)
+      prof_ranks = {}
+
+      
         
       for i in rows:
         if i[0] == subject and i[1] == courseNum:
@@ -171,9 +172,14 @@ async def killswitch(ctx):
     await client.close()
    else:
     print("Kill request denied. User: " + str(ctx.author))
-    
-      
 
+@client.command(aliases=["sems"])
+async def semesters(ctx):
+  semEmbed = discord.Embed(title = "Current Supported Semesters", description= "", color = 0x206694)
+  semEmbed.add_field(name="_____", value= "Fall 2021 (FA21)\n" + "Spring 2022 (SP22)")
+  semEmbed.set_author(name = ctx.author, icon_url = ctx.author.display_avatar)
+  semEmbed.set_footer(text = "UIClassmate")
+  await ctx.channel.send(embed = semEmbed)
 
 
 # KEEPS THE BOT ALIVE FUNCTION CALL
